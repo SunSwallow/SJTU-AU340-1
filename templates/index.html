@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>工业互联网App</title>
+    <link href="{{ url_for('static', filename = 'css/style.css') }}" rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="#"/>
+  </head>
+  <body>
+
+    <h1>小型五扇叶风力发电机检测页面</h1>
+    
+    <div class='data'>
+      <a download="main.py" href = "../../main.py" id='download'>保存数据</a> 
+
+      <div class = 'upload'>
+        <input type="file" accept="csv" id='upload-file' style="display:none">
+        <button id ='upload-button' >上传数据</button>
+      </div>
+    </div>  
+  
+    
+    <script type="text/javascript" src= "{{ url_for('static', filename = 'js/my.js') }}" ></script>
+  </body>
+</html>
