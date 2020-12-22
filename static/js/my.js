@@ -42,3 +42,26 @@ document.querySelector("#upload-file").onchange = () => {
 };
 
 
+
+// ------------------------------------加载图表----------------------------------------------
+var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+
+$(
+    function () {
+        fetchData(chart);
+        // setInterval(fetchData, 2000);
+    }
+);
+
+function fetchData() {
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:9584/barChart",
+        dataType: 'json',
+        success: function (result) {
+            chart.setOption(result);
+        }
+    });
+}
+
+

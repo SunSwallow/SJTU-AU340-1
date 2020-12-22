@@ -2,7 +2,9 @@
 from flask import Flask, render_template, request
 import os 
 import shutil
-
+from pyecharts import options as opts
+from pyecharts.charts import Bar, Line
+import random
 
 ORIGIN_DATA_FLODER = './data'
 ALLOWED_EXTENSIONS = set('.csv')
@@ -15,6 +17,22 @@ app = Flask(__name__)
 
 def get_index():
     return render_template('index.html')
+
+def bar_base() -> Bar:
+    c = (
+        Bar()
+            .add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
+            .add_yaxis("商家A", [random.randint(10, 100) for _ in range(6)])
+            .add_yaxis("商家B", [random.randint(10, 100) for _ in range(6)])
+            .set_global_opts(title_opts=opts.TitleOpts(title="", subtitle=""))
+    )
+    return c
+
+
+@app.route("/barChart")
+def get_bar_chart():
+    c = bar_base()
+    return c.dump_options_with_quotes()
 
 
 
