@@ -3,8 +3,11 @@ from flask import Flask, render_template, request
 import os 
 import shutil
 from pyecharts import options as opts
-from pyecharts.charts import Bar, Line
+from pyecharts.charts import Bar, Line, Grid
 import random
+import json
+import time
+
 
 ORIGIN_DATA_FLODER = './data'
 ALLOWED_EXTENSIONS = set('.csv')
@@ -18,21 +21,43 @@ app = Flask(__name__)
 def get_index():
     return render_template('index.html')
 
-def bar_base() -> Bar:
-    c = (
-        Bar()
-            .add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
-            .add_yaxis("商家A", [random.randint(10, 100) for _ in range(6)])
-            .add_yaxis("商家B", [random.randint(10, 100) for _ in range(6)])
-            .set_global_opts(title_opts=opts.TitleOpts(title="", subtitle=""))
+def get_json():
+    with open('../project/backend_json/Datalog_2019_12_10_15_07_25.json') as f:
+        data = json.load(f)
+    
+    return data
+
+
+def line_base():
+    '''
+    ['Axis0Torque', 'Axis0Velocity', 'Axis1Torque', 'Axis1Velocity', 'Axis2Torque', 'Axis2Velocity', 'Axis3Torque', 'Axis3Velocity', 'Axis4Torque', 'Axis4Velocity', 'Timestamp', 'YawLeft', 'YawRight', 'Move', 'YawBrakeReleased', 'MotorBrakeReleased', 'YawBrakeRelease', 'MotorBrakesRelease']
+    '''
+
+    with open('../project/backend_json/Datalog_2019_12_10_15_07_25.json') as f:
+        data = json.load(f)
+    yawing0 = data['yawing0_bad']
+    l = (
+        Line()
+            .add_xaxis(yawing0['Timestamp'])
+            .add_yaxis('Velocity',{"1":yawing0['Axis0Velocity'], '2':yawing0['Axis1Velocity']})
+            # .add_yaxis('Axis1Velocity',yawing0['Axis1Velocity'])
+            .set_global_opts(title_opts=opts.TitleOpts(title="FUCKALL", subtitle=""),
+                            xaxis_opts=opts.AxisOpts(type_='time'))
     )
-    return c
+
+    return l
 
 
 @app.route("/barChart")
 def get_bar_chart():
-    c = bar_base()
+    c = line_base()
     return c.dump_options_with_quotes()
+
+@app.route("/data")
+def send_json():
+    data = get_json()
+    return data
+
 
 
 
