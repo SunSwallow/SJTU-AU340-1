@@ -64,16 +64,16 @@ fetch(myRequest)
 function process_add_button(data){
     let yawing = document.getElementById('yawing');
     if (yawing !== null){yawing.parentNode.removeChild(yawing);}
-    yawing = document.createElement("div");
+    yawing = document.createElement("ul");
     yawing.id = 'yawing';
     let count = 0;
-    let num = Object.keys(data).length;
-    let width = window.getComputedStyle(document.getElementById('pic')).width / num;
+    // let num = Object.keys(data).length;
+    // let width = window.getComputedStyle(document.getElementById('pic')).width / num;
     
     for (let ele in data) {
         button = document.createElement("button");
         button.classList.add("y");
-        button.style.width = width;
+        // button.style.width = width;
         button.innerText = 'Yawing'+String(count);
         if ( Object.keys(data)[count].indexOf('bad') !== -1){
             button.value = 'bad';
@@ -81,9 +81,11 @@ function process_add_button(data){
             button.value = 'good';
         }
         count++;
-        yawing.appendChild(button);
+        let list = document.createElement("li");
+        list.appendChild(button)
+        yawing.appendChild(list);
     };
-    document.getElementById('pic').insertBefore(yawing,document.getElementById('chart'));
+    document.querySelector('.mainbox').insertBefore(yawing,document.getElementById('pic'));
     allData = data;
     return data[Object.keys(data)[0]];
 }

@@ -8,24 +8,23 @@
     <link rel="shortcut icon" href="#"/>
   </head>
   <body>
+    <div class='head'><h1>小型五扇叶风力发电机检测页面</h1></div>
     <div class='mainbox'>
-      <div class='head'><h1>小型五扇叶风力发电机检测页面</h1></div>
-      
       
       <!-- 上传下载按钮 -->
-      <div class='data'>
-        <a download="main.py" href = "../../main.py" id='download'>保存数据</a> 
-        <div class = 'upload'>
+      <div class='data' id='xxx'>
+        <div><a download="data.json" href = "{{url_for('static', filename='data.json')}}" id='download'>保存数据</a> </div>
+        <div id = 'upload'>
           <input type="file" accept="csv" id='upload-file' style="display:none">
           <button id ='upload-button' >上传数据</button>
         </div>
       </div>  
 
-      <div id='pic'>
-        <!-- 画布 -->
-        <div id="chart" style="width:120rem; height:85rem;"></div>
       
-      </div>
+        <!-- 画布 -->
+      <div id="chart" style="width:150rem; height:100rem;"></div>
+      
+      
     </div>
 
     <script type="text/javascript" src= "{{ url_for('static', filename = 'js/jquery-3.5.1.min.js') }}" ></script>
