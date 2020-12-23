@@ -1,44 +1,5 @@
 @charset "utf-8";
 /* CSS Document */
-
-.head{ height:105px; background: url(../images/head_bg.png) no-repeat center center; position: relative}
-body { color:#000d4a; 
-    background-image: url(../images/bg.jpg);
-    font-family: "微软雅黑";
-}
-#chart {color:#000d4a; }
-.mainbox {
-    padding: 10px 20px 0px 20px;
-}
-.y {
-    height: 5%;
-    float: center;
-}
-
-
-
-
-.data {
-    float: left;
-}
-
-#pic {
-    border: 2px solid blue;
-    padding: .5em;
-    float:right
-}
-
-
-
-
-
-
-
-
-
-
-
-
 *{
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -70,7 +31,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 .loadbox{position:absolute; width:160px;height:150px; color:rgba(255,255,255,.6); left:50%; top:50%; margin-top:-100px; margin-left:-75px;}
 .loadbox img{ margin:10px auto; display:block; width:40px;}
  
-
+.head{ height:105px; background: url(../images/head_bg.png) no-repeat center center; position: relative}
 .head h1{ color:#fff; text-align: center; font-size:42px; line-height:90px;;}
 .head h1 img{ width:1.5rem; display: inline-block; vertical-align: middle; margin-right: .2rem}
 .weather{ position:absolute; right:30px; top:0; line-height: 70px;}
