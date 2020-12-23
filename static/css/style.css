@@ -1,32 +1,50 @@
 @charset "utf-8";
 /* CSS Document */
 
-.head{ height:105px; background: url(../images/head_bg.png) no-repeat center center; position: relative}
+.head{ height:10rem; background: url(../images/head_bg.png) no-repeat center center; position: relative}
+
 body { color:#000d4a; 
     background-image: url(../images/bg.jpg);
     font-family: "微软雅黑";
 }
-#chart {color:#000d4a; }
+
+
+
 .mainbox {
     padding: 10px 20px 0px 20px;
 }
+
+/* yawing 按钮 */
+#yawing { 
+    height: 4rem;
+    
+}
 .y {
-    height: 5%;
+    height: 4rem;
+    width: 20rem;
     float: center;
+    background-color: #000d4a;
+    color: #fff;
+    font-size: 1.5rem;
+
 }
 
 
 
-
+/* 上传下载 按钮 */
 .data {
     float: left;
 }
 
 #pic {
-    border: 2px solid blue;
+    border: 2px solid #000d4a;
     padding: .5em;
-    float:right
+    float:right;
+    height: 90rem;
+    width: 120rem;
 }
+
+
 
 
 

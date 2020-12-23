@@ -67,9 +67,13 @@ function process_add_button(data){
     yawing = document.createElement("div");
     yawing.id = 'yawing';
     let count = 0;
+    let num = Object.keys(data).length;
+    let width = window.getComputedStyle(document.getElementById('pic')).width / num;
+    
     for (let ele in data) {
         button = document.createElement("button");
-        button.class = 'y';
+        button.classList.add("y");
+        button.style.width = width;
         button.innerText = 'Yawing'+String(count);
         if ( Object.keys(data)[count].indexOf('bad') !== -1){
             button.value = 'bad';
