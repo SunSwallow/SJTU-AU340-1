@@ -2,8 +2,8 @@
 from flask import Flask, render_template, request
 import os 
 import shutil
-from pyecharts import options as opts
-from pyecharts.charts import Bar, Line, Grid
+#from pyecharts import options as opts
+#from pyecharts.charts import Bar, Line, Grid
 import random
 import json
 import time
@@ -84,4 +84,4 @@ def download_file(filepath):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=9584)
+    app.run(debug=True ,host='10.168.0.2',port=9584)
