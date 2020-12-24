@@ -12,7 +12,7 @@ document.querySelector("#upload-file").onchange = () => {
   if (files.length ===0) return;
   
   let form = new FormData(),
-    url = 'http://35.235.115.22:9584/upload/', //服务器上传地址
+    url = 'http://ihzb.xyz/upload/', //服务器上传地址  fuck
     file = files[0];
   form.append('file', file);
 
@@ -48,7 +48,7 @@ var opt = init_opt()
 flash_all();
 
 function flash_all(){
-    let r = new Request("http://35.235.115.22:9584/data");
+    let r = new Request("http://ihzb.xyz/data");
     chart.showLoading();
     fetch(r)
     // .then(chart.hideLoading();)

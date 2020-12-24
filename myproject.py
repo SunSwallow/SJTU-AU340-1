@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request
+from flask_cors import CORS
 import os 
 import shutil
 #from pyecharts import options as opts
@@ -17,7 +18,8 @@ UPLOAD_PATH = './upload/'
 
 
 
-app = Flask(__name__)
+server = Flask(__name__)
+CORS(server, resources=r'/*')
 filenames = None
 json_raw_files = {}
 
@@ -38,19 +40,19 @@ def get_json():
     return r.text
 
 
-@app.route("/data")
+@server.route("/data")
 def send_json():
     data = get_json()
     return data
 
 
-@app.route('/')
+@server.route('/')
 def index():
     return get_index()
 
 
 
-@app.route('/upload/', methods=['POST','GET'])
+@server.route('/upload/', methods=['POST','GET'])
 def upload():
     if request.method == 'POST':
         file_up = request.files['file']
@@ -63,8 +65,8 @@ def upload():
         else:
             return {"status":"文件扩展名错误！"}
 
-@app.route('/clear')
-@app.route('/clear/')
+@server.route('/clear')
+@server.route('/clear/')
 def clear_files():
     if os.path.exists(UPLOAD_PATH):
         shutil.rmtree(UPLOAD_PATH)
@@ -73,10 +75,10 @@ def clear_files():
     return get_index()
 
 
-@app.route("/download/<filepath>", methods=['GET'])
+@server.route("/download/<filepath>", methods=['GET'])
 def download_file(filepath):
     # 此处的filepath是文件的路径，但是文件必须存储在static文件夹下， 比如images\test.jpg
-    return app.send_static_file(filepath)  
+    return server.send_static_file(filepath)  
 
 
 
@@ -84,4 +86,4 @@ def download_file(filepath):
 
 
 if __name__ == '__main__':
-    app.run(debug=True ,host='10.168.0.2',port=9584)
+    server.run(debug=True ,host='10.168.0.2',port=80)
