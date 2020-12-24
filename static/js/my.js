@@ -12,7 +12,7 @@ document.querySelector("#upload-file").onchange = () => {
   if (files.length ===0) return;
   
   let form = new FormData(),
-    url = 'http://127.0.0.1:9584/upload/', //服务器上传地址
+    url = 'http://10.168.0.2:9584/upload/', //服务器上传地址
     file = files[0];
   form.append('file', file);
 
@@ -48,7 +48,7 @@ var opt = init_opt()
 flash_all();
 
 function flash_all(){
-    let r = new Request("http://127.0.0.1:9584/data");
+    let r = new Request("http://10.168.0.2:9584/data");
     chart.showLoading();
     fetch(r)
     // .then(chart.hideLoading();)
