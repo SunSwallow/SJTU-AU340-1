@@ -1,4 +1,5 @@
 
+const host = 'monitor.ihzb.xyz';
 
 //------------------------------上传事件-------------------------------------
 
@@ -12,7 +13,7 @@ document.querySelector("#upload-file").onchange = () => {
   if (files.length ===0) return;
   
   let form = new FormData(),
-    url = 'http://ihzb.xyz/upload/', //服务器上传地址  fuck
+    url = `http://${host}/upload/`, //服务器上传地址  fuck
     file = files[0];
   form.append('file', file);
 
@@ -28,7 +29,7 @@ document.querySelector("#upload-file").onchange = () => {
       }
       else if (result.readyState == 4) { //finished
         console.log('上传成功', result);  
-        flash_all();
+        flash_all(`http://${host}/data`);
       }
   };
   xhr.send(form); //开始上传
@@ -45,10 +46,10 @@ chart.showLoading();
 var allData = null;
 var opt = init_opt()
 
-flash_all();
+flash_all(`http://${host}/init_data`);
 
-function flash_all(){
-    let r = new Request("http://ihzb.xyz/data");
+function flash_all(init_url){
+    let r = new Request(init_url);
     chart.showLoading();
     fetch(r)
     // .then(chart.hideLoading();)
@@ -104,14 +105,24 @@ function flash_chart(e) {
     if (e.target.value==='good'){
         color='salmon';
     } else if (e.target.value==='bad') {
-        color = '#A2FF33';
+        color = '#ff0000';
     }
     document.querySelector('#sign div').style.backgroundColor = color;
     document.querySelector('#sign div').style.borderColor = color;
     chart.hideLoading();
-    chart.setOption(get_opt(allData[Object.keys(allData)[index]]));
+    yawing_data = allData[Object.keys(allData)[index]];
+    console.log(yawing_data);
+    flash_table(yawing_data);
+    chart.setOption(get_opt(yawing_data));
 }
 
+function flash_table(data){
+    document.getElementById('num0').innerText = yawing_data['num0'];
+    document.getElementById('num1').innerText = yawing_data['num1'];
+    document.getElementById('num2').innerText = yawing_data['num2'];
+    document.getElementById('num3').innerText = yawing_data['num3'];
+    document.getElementById('num4').innerText = yawing_data['num4'];
+}
 
 function add_event(){ 
     console.log('add event')
@@ -126,7 +137,7 @@ function add_event(){
 
 // 指定图表的配置项和数据
 function get_opt(metadata) {
-    console.log(metadata)
+    // console.log(metadata)
     // console.log(opt.series)
     opt.xAxis[0].data = metadata.Timestamp;
     opt.xAxis[1].data = metadata.Timestamp;

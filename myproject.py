@@ -23,25 +23,44 @@ CORS(server, resources=r'/*')
 filenames = None
 json_raw_files = {}
 
+init_flag = True
+
 def get_index():
     return render_template('index.html')
 
+
 def get_json():
     global filenames
-    with open('data/Datalog_2019_12_10_15_07_25.json') as f:
-        data = json.load(f)
-    return data
-
-    r = requests.get(host + '/filename')
-    filenames = json.loads(r.text)
-    r = requests.post(host + '/fetch', data={'filename': filenames[0]})
-    json_raw_files[0] = r.text
-
-    return r.text
+    print("init_flag:", init_flag)
+    if init_flag:
+        with open('data/Datalog_2019_12_10_15_07_25.json') as f:
+            data = json.load(f)
+        return data
+    else:
+        tmp = os.listdir(UPLOAD_PATH)
+        tmp.sort()
+        filename = os.path.join(UPLOAD_PATH, tmp[0])
+        f ={"filed1":open(filename, 'rb')}
+        r = requests.post('http://59.78.19.21:5000' + '/fetch', data={'filename':'data-{}.csv'.format(int(time.time()))}, files=f)
+        data = r.text
+        with open('./static/data.json', 'w') as f:
+            f.write(data)
+        # clear_files()
+        # print(tmp)
+        # print("we get this")
+        print(data[:100])   
+        return data
 
 
 @server.route("/data")
 def send_json():
+    global init_flag   
+    init_flag = False
+    data = get_json()
+    return data
+
+@server.route("/init_data")
+def send_json_():
     data = get_json()
     return data
 
@@ -60,7 +79,8 @@ def upload():
         extension = filename.split('.')[-1]
         
         if extension == 'csv':
-            file_up.save(os.path.join(UPLOAD_PATH, filename))
+            # print('File saved at :',os.path.join(UPLOAD_PATH, 'data-{}.csv'.format(time.time())))
+            file_up.save(os.path.join(UPLOAD_PATH, 'data.csv'))
             return {"status":200}
         else:
             return {"status":"文件扩展名错误！"}
@@ -75,10 +95,11 @@ def clear_files():
     return get_index()
 
 
-@server.route("/download/<filepath>", methods=['GET'])
-def download_file(filepath):
-    # 此处的filepath是文件的路径，但是文件必须存储在static文件夹下， 比如images\test.jpg
-    return server.send_static_file(filepath)  
+# @server.route("/download/<filepath>", methods=['GET'])
+# def download_file(filepath):
+#     # 此处的filepath是文件的路径，但是文件必须存储在static文件夹下， 比如images\test.jpg
+#     if init_flag:
+#         return server.send_static_file(filepath)  
 
 
 
@@ -86,4 +107,4 @@ def download_file(filepath):
 
 
 if __name__ == '__main__':
-    server.run(debug=True ,host='10.168.0.2',port=80)
+    server.run(debug=True ,host='0.0.0.0',port=80)
